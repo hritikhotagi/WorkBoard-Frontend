@@ -67,7 +67,11 @@ const WorkBoard = () => {
   const completedTasks = board.tasks.filter((task) => task.status === 'completed');
 
   const handleDragStart = (e, task) => {
-    e.dataTransfer.setData('taskId', task.id);
+    if (user.role !== 'viewer') {
+      e.dataTransfer.setData('taskId', task.id);
+    } else {
+      e.preventDefault(); // Prevent drag event for viewers
+    }
   };
 
   const handleDrop = async (e, newStatus) => {
@@ -95,12 +99,16 @@ const WorkBoard = () => {
   };
 
   const allowDrop = (e) => {
-    e.preventDefault();
+    if (user.role !== 'viewer') {
+      e.preventDefault(); // Prevent default action to allow drop for non-viewers
+    }
   };
 
   const handleAddTask = (status) => {
-    setCurrentStatus(status);
-    setIsModalOpen(true);
+    if (user.role !== 'viewer') {
+      setCurrentStatus(status);
+      setIsModalOpen(true);
+    }
   };
 
   const handleTaskSubmit = async (taskData) => {
@@ -115,13 +123,15 @@ const WorkBoard = () => {
   };
 
   const handleExpandTask = (task) => {
-    setExpandedTaskId(task.id);
-    setTaskEdits({
-      title: task.title,
-      description: task.description,
-      status: task.status,
-      assigned_to: task.assigned_to ? task.assigned_to.id : 0,
-    });
+    if (user.role !== 'viewer') {
+      setExpandedTaskId(task.id);
+      setTaskEdits({
+        title: task.title,
+        description: task.description,
+        status: task.status,
+        assigned_to: task.assigned_to ? task.assigned_to.id : 0,
+      });
+    }
   };
 
   const handleInputChange = (e) => {
@@ -163,16 +173,20 @@ const WorkBoard = () => {
     <div
       key={task.id}
       className={`task-card-custom ${expandedTaskId === task.id ? 'expanded' : ''}`}
-      draggable
+      draggable={user.role !== 'viewer'} // Disable dragging for viewers
       onDragStart={(e) => handleDragStart(e, task)}
+      style={{ cursor: user.role === 'viewer' ? 'not-allowed' : 'pointer' }} // Disable dragging cursor for viewers
     >
-      <div className="task-card-header" onClick={() => handleExpandTask(task)}>
+      <div
+        className="task-card-header"
+        onClick={() => handleExpandTask(task)} // Disable expand for viewer role
+      >
         <p>{task.title}</p>
         <p className="user-name">
           {task.assigned_to ? task.assigned_to.username : 'Unassigned'}
         </p>
       </div>
-      {expandedTaskId === task.id && (
+      {expandedTaskId === task.id && user.role !== 'viewer' && (
         <div className="task-card-body">
           <textarea
             name="description"
@@ -239,19 +253,25 @@ const WorkBoard = () => {
         <div className="column" onDrop={(e) => handleDrop(e, 'todo')} onDragOver={allowDrop}>
           <h3>To-Do's</h3>
           {todoTasks.map(renderTaskCard)}
-          <div className="add-task-card1" onClick={() => handleAddTask('todo')}>+</div>
+          {user && user.role === 'owner' && (
+            <div className="add-task-card1" onClick={() => handleAddTask('todo')}>+</div>
+          )}
         </div>
 
         <div className="column" onDrop={(e) => handleDrop(e, 'in_progress')} onDragOver={allowDrop}>
           <h3>In Progress</h3>
           {inProgressTasks.map(renderTaskCard)}
-          <div className="add-task-card1" onClick={() => handleAddTask('in_progress')}>+</div>
+          {user && user.role === 'owner' && (
+            <div className="add-task-card1" onClick={() => handleAddTask('in_progress')}>+</div>
+          )}
         </div>
 
         <div className="column" onDrop={(e) => handleDrop(e, 'completed')} onDragOver={allowDrop}>
           <h3>Completed</h3>
           {completedTasks.map(renderTaskCard)}
-          <div className="add-task-card1" onClick={() => handleAddTask('completed')}>+</div>
+          {user && user.role === 'owner' && (
+            <div className="add-task-card1" onClick={() => handleAddTask('completed')}>+</div>
+          )}
         </div>
       </div>
 

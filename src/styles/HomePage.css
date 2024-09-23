@@ -155,3 +155,8 @@
   .logout-btn:hover {
     background-color: #6c63ff;
   }
+
+  .admin-btn{
+    border-radius: 5px;
+    margin-right: 20px;
+  }

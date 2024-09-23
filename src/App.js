@@ -8,13 +8,21 @@ import WorkBoard from './components/WorkBoard.jsx';
 import CreateBoardPage from './pages/CreateBoardPage';
 import { checkTokenValidity, logout } from './api/api';
 
+// A reusable ProtectedRoute component that also verifies user roles if required
+const ProtectedRoute = ({ element: Component, allowedRoles }) => {
+  const isAuthenticated = checkTokenValidity();
+  const storedUser = JSON.parse(localStorage.getItem('user')); 
+  const userRole = storedUser ? storedUser.role : null; 
 
-const ProtectedRoute = ({ element: Component }) => {
-  const isAuthenticated = checkTokenValidity(); 
-
+  // If user is not authenticated, redirect to login and logout
   if (!isAuthenticated) {
-    logout(); 
-    return <Navigate to="/login" replace />; 
+    logout();
+    return <Navigate to="/login" replace />;
+  }
+
+  // If the route has role restrictions and user doesn't match, redirect to homepage
+  if (allowedRoles && !allowedRoles.includes(userRole)) {
+    return <Navigate to="/" replace />;
   }
 
   return <Component />;
@@ -22,37 +30,36 @@ const ProtectedRoute = ({ element: Component }) => {
 
 function App() {
   useEffect(() => {
+    // Check if the token is still valid on app load and logout if it's expired
     if (!checkTokenValidity()) {
-      logout(); 
+      logout();
     }
   }, []);
 
   return (
-    <Router> 
+    <Router>
       <Routes>
-        
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        
+        {/* Protect all routes, including role-based access */}
         <Route
           path="/"
           element={<ProtectedRoute element={HomePage} />} 
         />
         <Route
           path="/create-board"
-          element={<ProtectedRoute element={CreateBoardPage} />}
+          element={<ProtectedRoute element={CreateBoardPage} allowedRoles={['owner']} />} 
         />
         <Route
           path="/admin"
-          element={<ProtectedRoute element={AdminPage} />}
+          element={<ProtectedRoute element={AdminPage} allowedRoles={['owner']} />} 
         />
         <Route
           path="/board/:id"
-          element={<ProtectedRoute element={WorkBoard} />}
+          element={<ProtectedRoute element={WorkBoard} />} 
         />
 
-        
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>

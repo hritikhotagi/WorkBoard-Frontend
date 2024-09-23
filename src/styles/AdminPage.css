@@ -1,0 +1,10 @@
+.edit-role-btn {
+    background-color: #5a54d7;
+    color: white;
+    border: none;
+  }
+  
+  .edit-role-btn:hover {
+    background-color: #4a44c7; /* Optional hover effect */
+  }
+  

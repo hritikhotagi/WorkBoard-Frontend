@@ -53,7 +53,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, status, users }) => {
       <Modal.Body>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Title</label>
+            <label>Title <span style={{ color: 'red' }}>*</span></label>
             <input
               type="text"
               className="form-control"
@@ -74,7 +74,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, status, users }) => {
             <label>
               Assigned To{' '}
               {(status === 'in_progress' || status === 'completed') && (
-                <span style={{ color: 'red' }}>*</span> // Red star for required field
+                <span style={{ color: 'red' }}>*</span>
               )}
             </label>
             <select
@@ -91,7 +91,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, status, users }) => {
               ))}
             </select>
           </div>
-          {error && <p style={{ color: 'red' }}>{error}</p>} {/* Error message */}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
           <Button type="submit" variant="primary">
             Create Task
           </Button>

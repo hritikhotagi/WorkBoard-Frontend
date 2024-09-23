@@ -12,7 +12,6 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
     const token = localStorage.getItem('authToken');
     const storedUser = localStorage.getItem('user'); 
 
@@ -23,7 +22,6 @@ const HomePage = () => {
       setIsAuthenticated(false);
     }
 
-    
     const fetchBoards = async () => {
       try {
         const boardsData = await getBoards();
@@ -37,14 +35,12 @@ const HomePage = () => {
   }, []);
 
   const handleLogout = () => {
-    
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
     setIsAuthenticated(false);
     navigate('/login'); 
   };
 
-  
   const getInitial = (name) => {
     return name.charAt(0).toUpperCase(); 
   };
@@ -54,16 +50,25 @@ const HomePage = () => {
       <nav className="navbar">
         <div className="navbar-title">
           <h2>My WorkBoards</h2>
-          <span className="navbar-subtitle">Assigned to Me</span>
+          {isAuthenticated && user && user.role ? (
+            <span className="navbar-subtitle">Assigned as {user.role}</span>
+          ) : (
+            <span className="navbar-subtitle">Assigned to Me</span>
+          )}
         </div>
         <div className="navbar-profile">
           {isAuthenticated && user ? (
             <>
+            {user.role === 'owner' && ( // Show Admin Page button if user is admin
+                <button className="admin-btn" onClick={() => navigate('/admin')}>
+                  Admin Page
+                </button>
+              )}
               <div className="profile-icon">
-                
                 <span className="profile-initials">{getInitial(user.username)}</span>
               </div>
               <span className="profile-name">{user.username}</span> 
+              
               <button className="logout-btn" onClick={handleLogout}>
                 Logout
               </button>

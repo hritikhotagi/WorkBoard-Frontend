@@ -104,7 +104,7 @@ export const getUsers = async () => {
 };
 
 export const updateUserRole = async (userId, role) => {
-  const response = await axiosInstance.patch(`/users/${userId}/`, { role });
+  const response = await axiosInstance.patch(`api/users/${userId}/`, { role });
   return response.data;
 };
 
