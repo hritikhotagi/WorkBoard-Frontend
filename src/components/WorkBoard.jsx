@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getBoardDetails, createTask, getUsers, updateTask, updateTaskStatus } from '../api/api';
 import TaskModal from './TaskModal';
 import '../styles/WorkBoard.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const WorkBoard = () => {
   const { id } = useParams();
@@ -15,6 +16,7 @@ const WorkBoard = () => {
   const [expandedTaskId, setExpandedTaskId] = useState(null);
   const [taskEdits, setTaskEdits] = useState({});
   const [user, setUser] = useState(null);
+  const [notification, setNotification] = useState(''); // For notification banner
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -70,12 +72,20 @@ const WorkBoard = () => {
 
   const handleDrop = async (e, newStatus) => {
     const taskId = e.dataTransfer.getData('taskId');
+    const currentTask = board.tasks.find(task => task.id === Number(taskId));
+
+    // If moving to "completed", check if assigned_to is null or unassigned
+    if (newStatus === 'completed' && !currentTask.assigned_to) {
+      setNotification('Task cannot be moved to Completed without an assignee.');
+      setTimeout(() => setNotification(''), 5000); // Hide notification after 5 seconds
+      return; // Prevent task from moving to completed
+    }
+
     try {
-        const currentTask = board.tasks.find(task => task.id === Number(taskId));
-        const updatedTask = {
-            status: newStatus,          
-            assigned_to: currentTask.assigned_to ? currentTask.assigned_to.id : null, 
-          };
+      const updatedTask = {
+        status: newStatus,
+        assigned_to: currentTask.assigned_to ? currentTask.assigned_to.id : null,
+      };
       await updateTaskStatus(taskId, updatedTask);
       const updatedBoardData = await getBoardDetails(id);
       setBoard(updatedBoardData);
@@ -200,6 +210,11 @@ const WorkBoard = () => {
 
   return (
     <div className="work-board-page">
+      {notification && (
+        <div className="alert alert-warning" role="alert">
+          {notification}
+        </div>
+      )}
       <div className="board-header">
         <div className="title-section">
           <h1>
