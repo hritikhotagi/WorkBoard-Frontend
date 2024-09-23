@@ -1,0 +1,112 @@
+.board-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  /* Board card styling */
+  .board-card {
+    background-color: #ffeb99; /* Yellow tone */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 250px;
+    max-width: 400px;
+    height: 200px;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    text-decoration: none; /* No underline */
+    color: inherit;
+  }
+  
+  .board-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .board-card h3 {
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+  }
+  
+  .board-card p {
+    color: #555;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Footer containing task count and avatars */
+  .board-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .task-count {
+    font-size: 0.875rem;
+    color: #333;
+  }
+  
+  /* Assigned users section */
+  .assigned-users {
+    display: flex;
+    position: relative;
+    width: 100px; /* Limit width for stacking effect */
+  }
+  
+  .user-avatar1 {
+    background-color: #5a54d7;
+    color: #fff;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff; /* White border for overlap effect */
+    position: relative;
+    margin-left: -10px; /* Overlap the avatars */
+  }
+  
+  /* Hide overflow after showing 6 avatars */
+  .assigned-users .user-avatar:nth-child(n+7) {
+    display: none; /* Hide avatars after the 6th */
+  }
+  
+  /* Create Board button styling */
+  .create-board-btn {
+    background-color: #5a54d7;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    text-align: center;
+    position: relative;
+    transition: background-color 0.3s ease;
+  }
+  
+  .create-board-btn:hover {
+    background-color: #6c63ff;
+  }
+  

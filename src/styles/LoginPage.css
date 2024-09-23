@@ -1,0 +1,123 @@
+body {
+    /* background-color: #f4f4f4; */
+    background-color: #fff;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .login-container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 100vh; */
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .login-suggestion {
+    font-size: 14px;
+    color: #7a7a7a;
+    margin-bottom: 20px;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .login-form label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #7a7a7a;
+  }
+  
+  .login-form input {
+    /* padding-top: 12px; */
+    padding: 12px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  .toggle-password-visibility {
+    cursor: pointer;
+    margin-left: -30px;
+    font-size: 20px;
+  }
+
+  .password-field{
+    background-color: red;
+  }
+
+  .forgot-password {
+    color: #7a7a7a;
+    font-size: 14px;
+    text-align: right;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+  
+  .login-btn {
+    background-color: #6c63ff;
+    color: white;
+    font-size: 16px;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 106%;
+    margin-bottom: 15px;
+  }
+  
+  .login-btn:hover {
+    background-color: #5a54d7;
+  }
+  
+  .signup-section {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .signup-link {
+    color: #6c63ff;
+    cursor: pointer;
+  }
+  
+  .signup-link:hover {
+    text-decoration: underline;
+  }
+  
+  .terms {
+    font-size: 12px;
+    text-align: center;
+    color: #7a7a7a;
+    margin-top: 20px;
+  }
+  
+  .terms a {
+    color: #6c63ff;
+    text-decoration: none;
+  }
+  
+  .terms a:hover {
+    text-decoration: underline;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  

@@ -1,0 +1,159 @@
+/* Navbar styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .navbar-title {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-title h2 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #333;
+  }
+  
+  .navbar-subtitle {
+    margin-left: 20px;
+    font-size: 1rem;
+    color: #666;
+    font-weight: 400;
+  }
+  
+  .navbar-profile {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 15px;
+    background-color: #dcedc8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25rem;
+    color: #fff;
+  }
+  
+  .profile-name {
+    margin-right: 10px;
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .logout-btn {
+    background-color: transparent;
+    color: #666;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-left: 10px;
+    transition: color 0.2s ease;
+  }
+  
+  .logout-btn:hover {
+    color: #000;
+  }
+  
+  /* Ensure that the home page content is below the navbar */
+  .home-page {
+    background-color: #fafafa;
+    min-height: 100vh;
+  }
+
+  
+  /* Styling for the board list container */
+.board-list-container {
+    width: 88%;
+    margin: auto;
+    margin-top: 20px;
+  }
+  
+  /* Adjust create board button styling */
+  .create-board-btn {
+    background-color: #e0e0e0;
+    color: #999;
+    font-size: 2.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 200px;
+    border-radius: 12px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: 2px dashed #ccc;
+    margin-right: 20px;
+  }
+  
+  .create-board-btn:hover {
+    background-color: #d0d0d0;
+  }
+  
+  .navbar-profile {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Authentication buttons (Sign In and Sign Up) */
+  .auth-btn {
+    background-color: transparent;
+    color: #007bff;
+    border: 1px solid #007bff;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .auth-btn:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .profile-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #6c63ff;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-right: 10px;
+  }
+  
+  .profile-initials {
+    font-size: 1.25rem;
+    color: #fff;
+  }
+
+  .logout-btn {
+    background-color: #5a54d7;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .logout-btn:hover {
+    background-color: #6c63ff;
+  }
