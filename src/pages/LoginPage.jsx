@@ -68,9 +68,6 @@ const LoginPage = () => {
       <div className="signup-section">
         <p>You don't have an account yet? <span onClick={goToRegister} className="signup-link">Sign up</span></p>
       </div>
-      <p className="terms">
-        By creating an account you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
-      </p>
     </div>
   );
 };

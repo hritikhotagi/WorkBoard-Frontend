@@ -41,7 +41,7 @@ body {
   
   .register-page form select {
     padding: 10px;
-    width: 106.5%;
+    width: 100%;
   }
   
   .register-page form button {
@@ -52,7 +52,7 @@ body {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width: 106.5%;
+    width: 100%;
   }
   
   .register-page form button:hover {
