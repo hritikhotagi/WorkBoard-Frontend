@@ -5,22 +5,33 @@ const TaskModal = ({ isOpen, onClose, onSubmit, status, users }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [assignedTo, setAssignedTo] = useState('');
+  const [error, setError] = useState(''); // State to store error messages
 
   useEffect(() => {
     if (isOpen) {
       setTitle('');
       setDescription('');
       setAssignedTo('');
+      setError(''); // Clear error on modal open
     }
   }, [isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if ((status === 'in_progress' || status === 'completed') && (!assignedTo || assignedTo === '0')) {
+      setError('You must assign a user for tasks in In Progress or Completed status.');
+      return;
+    }
+
     const taskData = {
       title,
       status,
     };
+
+    if (description.trim()) {
+      taskData.description = description;
+    }
 
     if (assignedTo && assignedTo !== '0') {
       taskData.assigned_to = Number(assignedTo);
@@ -28,10 +39,6 @@ const TaskModal = ({ isOpen, onClose, onSubmit, status, users }) => {
     } else {
       taskData.assigned_to = null;
       taskData.assigned_to_id = null;
-    }
-
-    if (description.trim()) {
-      taskData.description = description;
     }
 
     onSubmit(taskData);
@@ -64,13 +71,19 @@ const TaskModal = ({ isOpen, onClose, onSubmit, status, users }) => {
             />
           </div>
           <div className="form-group">
-            <label>Assigned To</label>
+            <label>
+              Assigned To{' '}
+              {(status === 'in_progress' || status === 'completed') && (
+                <span style={{ color: 'red' }}>*</span> // Red star for required field
+              )}
+            </label>
             <select
               className="form-control"
               value={assignedTo}
               onChange={(e) => setAssignedTo(e.target.value)}
+              required={status === 'in_progress' || status === 'completed'}
             >
-              <option value="0">Select User</option>
+              <option value="0">Unassigned</option>
               {users.map((user) => (
                 <option key={user.id} value={user.id}>
                   {user.username}
@@ -78,6 +91,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, status, users }) => {
               ))}
             </select>
           </div>
+          {error && <p style={{ color: 'red' }}>{error}</p>} {/* Error message */}
           <Button type="submit" variant="primary">
             Create Task
           </Button>

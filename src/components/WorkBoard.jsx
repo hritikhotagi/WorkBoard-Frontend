@@ -74,11 +74,11 @@ const WorkBoard = () => {
     const taskId = e.dataTransfer.getData('taskId');
     const currentTask = board.tasks.find(task => task.id === Number(taskId));
 
-    // If moving to "completed", check if assigned_to is null or unassigned
-    if (newStatus === 'completed' && !currentTask.assigned_to) {
-      setNotification('Task cannot be moved to Completed without an assignee.');
+    // If moving to "in_progress" or "completed", check if assigned_to is null or unassigned
+    if ((newStatus === 'in_progress' || newStatus === 'completed') && !currentTask.assigned_to) {
+      setNotification(`Task cannot be moved to ${newStatus === 'completed' ? 'Completed' : 'In Progress'} without an assignee.`);
       setTimeout(() => setNotification(''), 5000); // Hide notification after 5 seconds
-      return; // Prevent task from moving to completed
+      return; // Prevent task from moving to in_progress or completed
     }
 
     try {
