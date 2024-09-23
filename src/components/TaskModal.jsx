@@ -17,25 +17,30 @@ const TaskModal = ({ isOpen, onClose, onSubmit, status, users }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     // Initialize taskData with required fields
     const taskData = {
       title,
       status,
     };
-
-    // Conditionally add fields only if they are filled and assignedTo is not '0' or ''
+  
+    // Set both `assigned_to` and `assigned_to_id` to `null` if "Unassigned" is selected
     if (assignedTo && assignedTo !== '0') {
-      taskData.assigned_to_id = Number(assignedTo); // Add assigned_to_id if valid user is selected
+      taskData.assigned_to = Number(assignedTo);  // For valid user selection, set assigned_to
+      taskData.assigned_to_id = Number(assignedTo); // Set assigned_to_id for the valid user
+    } else {
+      taskData.assigned_to = null;  // Set both to null for "Unassigned"
+      taskData.assigned_to_id = null;
     }
-
+  
     if (description.trim()) {
       taskData.description = description; // Add description if provided
     }
-
+  
     onSubmit(taskData); // Pass the taskData to the parent component for submission
     onClose(); // Close the modal after submitting the form
   };
+  
 
   return (
     <Modal show={isOpen} onHide={onClose}>

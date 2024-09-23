@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000';
+const API_URL = 'http://13.233.255.142';
 
 const removeEmptyFields = (obj) => {
     return Object.fromEntries(

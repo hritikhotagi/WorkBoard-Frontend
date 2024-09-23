@@ -131,11 +131,21 @@ const WorkBoard = () => {
     }));
   };
 
-  // Handle "OK" button click (update task)
   const handleUpdateTask = async () => {
     try {
-      const updatedTask = { ...taskEdits, assigned_to_id: Number(taskEdits.assigned_to) };
+      const updatedTask = { ...taskEdits };
+  
+      // Handle unassigned case by setting both `assigned_to` and `assigned_to_id` to `null`
+      if (taskEdits.assigned_to === '0' || taskEdits.assigned_to === null) {
+        updatedTask.assigned_to = null;
+        updatedTask.assigned_to_id = null;
+      } else {
+        updatedTask.assigned_to = Number(taskEdits.assigned_to);
+        updatedTask.assigned_to_id = Number(taskEdits.assigned_to);
+      }
+  
       await updateTask(expandedTaskId, updatedTask); // Call API to update task
+  
       // Refetch the board to update the task list
       const updatedBoardData = await getBoardDetails(id);
       setBoard(updatedBoardData); // Update board state
@@ -144,6 +154,8 @@ const WorkBoard = () => {
       console.error('Error updating task:', error);
     }
   };
+  
+  
 
   // Cancel editing
   const handleCancelEdit = () => {
