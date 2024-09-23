@@ -149,6 +149,6 @@ export const createTask = async (task) => {
 };
 
 export const updateTaskStatus = async (taskId, status) => {
-  const response = await axiosInstance.patch(`/api/tasks/${taskId}/status/`, { status });
+  const response = await axiosInstance.patch(`/api/tasks/${taskId}/`, { status });
   return response.data;
 };

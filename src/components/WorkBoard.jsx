@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBoardDetails, createTask, getUsers, updateTask } from '../api/api'; // Import updateTask
+import { getBoardDetails, createTask, getUsers, updateTask, updateTaskStatus } from '../api/api'; // Import updateTaskStatus
 import TaskModal from './TaskModal'; // Import the modal
 import '../styles/WorkBoard.css'; // Custom styles for your workboard
 
@@ -14,8 +14,15 @@ const WorkBoard = () => {
   const [users, setUsers] = useState([]); // Fetch user list for assignment
   const [expandedTaskId, setExpandedTaskId] = useState(null); // Track the expanded task
   const [taskEdits, setTaskEdits] = useState({}); // State to store changes for expanded task
+  const [user, setUser] = useState(null); // Store user object
 
   useEffect(() => {
+    // Fetch user data from local storage
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) {
+      setUser(storedUser);
+    }
+
     const fetchBoard = async () => {
       try {
         const boardData = await getBoardDetails(id);
@@ -40,6 +47,13 @@ const WorkBoard = () => {
     fetchUsers(); // Fetch users when the component mounts
   }, [id]);
 
+  const handleLogout = () => {
+    // Clear auth token and user data from localStorage
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
+    navigate('/login'); // Redirect to login page
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -52,6 +66,30 @@ const WorkBoard = () => {
   const todoTasks = board.tasks.filter((task) => task.status === 'todo');
   const inProgressTasks = board.tasks.filter((task) => task.status === 'in_progress');
   const completedTasks = board.tasks.filter((task) => task.status === 'completed');
+
+  // Handle drag start event
+  const handleDragStart = (e, task) => {
+    e.dataTransfer.setData('taskId', task.id); // Store the task ID in dataTransfer
+  };
+
+  // Handle drop event on column
+  const handleDrop = async (e, newStatus) => {
+    const taskId = e.dataTransfer.getData('taskId'); // Get the task ID
+    try {
+      await updateTaskStatus(taskId, newStatus); // Call API to update task status
+
+      // Refetch the board data to reflect the updated status
+      const updatedBoardData = await getBoardDetails(id);
+      setBoard(updatedBoardData); // Update the board state
+    } catch (error) {
+      console.error('Error updating task status:', error);
+    }
+  };
+
+  // Allow the column to accept dropped tasks
+  const allowDrop = (e) => {
+    e.preventDefault(); // Prevent default behavior to allow drop
+  };
 
   // Open the modal with the current status
   const handleAddTask = (status) => {
@@ -116,8 +154,14 @@ const WorkBoard = () => {
     navigate('/'); // Redirect to the home page
   };
 
+  // Render task card
   const renderTaskCard = (task) => (
-    <div key={task.id} className={`task-card-custom ${expandedTaskId === task.id ? 'expanded' : ''}`}>
+    <div
+      key={task.id}
+      className={`task-card-custom ${expandedTaskId === task.id ? 'expanded' : ''}`}
+      draggable // Make task card draggable
+      onDragStart={(e) => handleDragStart(e, task)} // Handle dragging
+    >
       <div className="task-card-header" onClick={() => handleExpandTask(task)}>
         <p>{task.title}</p>
         <p className="user-name">
@@ -163,29 +207,39 @@ const WorkBoard = () => {
   return (
     <div className="work-board-page">
       <div className="board-header">
-        <h1>
+        <div className="title-section">
+          <h1>
             <span className='myworkboards' onClick={handleNavigateHome} style={{ cursor: 'pointer' }}>
-            My WorkBoards /
+              My WorkBoards /
             </span>
             {board.title}
-        </h1>
+          </h1>
         <p>{board.description}</p>
+        </div>
+        <div className="user-section">
+          {user && (
+            <>
+              <span className="username">{user.username}</span>
+              <button className="logout-btn" onClick={handleLogout}>Logout</button>
+            </>
+          )}
+        </div>
       </div>
 
       <div className="board-content">
-        <div className="column">
+        <div className="column" onDrop={(e) => handleDrop(e, 'todo')} onDragOver={allowDrop}>
           <h3>To-Do's</h3>
           {todoTasks.map(renderTaskCard)}
           <div className="add-task-card1" onClick={() => handleAddTask('todo')}>+</div>
         </div>
 
-        <div className="column">
+        <div className="column" onDrop={(e) => handleDrop(e, 'in_progress')} onDragOver={allowDrop}>
           <h3>In Progress</h3>
           {inProgressTasks.map(renderTaskCard)}
           <div className="add-task-card1" onClick={() => handleAddTask('in_progress')}>+</div>
         </div>
 
-        <div className="column">
+        <div className="column" onDrop={(e) => handleDrop(e, 'completed')} onDragOver={allowDrop}>
           <h3>Completed</h3>
           {completedTasks.map(renderTaskCard)}
           <div className="add-task-card1" onClick={() => handleAddTask('completed')}>+</div>

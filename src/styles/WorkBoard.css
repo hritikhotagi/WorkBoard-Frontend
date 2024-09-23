@@ -7,9 +7,10 @@
 
 .board-header {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    justify-content: space-between; /* Title at the start, user section at the end */
+    align-items: center; /* Vertically center the items */
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .board-header h1 {
@@ -26,6 +27,7 @@
 
 /* Column layout for tasks */
 .board-content {
+    margin-top: 10px;
     display: flex;
     justify-content: space-between;
     height: 600px; /* Set a fixed height to make the columns scrollable */
@@ -38,6 +40,24 @@
     border-radius: 10px;
     overflow-y: auto; /* Make the column scrollable */
     max-height: 100%; /* Ensure it takes the full height of the container */
+    border: 2px dashed transparent; /* For drag and drop highlight */
+    transition: border-color 0.2s ease;
+}
+
+.board-content .column:nth-child(1){
+    background-color: #fff9e4;
+}
+
+.board-content .column:nth-child(2){
+    background-color: #e3f2fd;
+}
+
+.board-content .column:nth-child(3){
+    background-color: #e8f5e9;
+}
+
+.column:hover {
+    border-color: #aaa; /* Highlight the column when a task is dragged over it */
 }
 
 .column h3 {
@@ -55,13 +75,20 @@
     flex-direction: column;
     justify-content: space-between;
     border: 1px solid #ddd;
-    cursor: pointer;
-    transition: transform 0.2s ease;
+    cursor: grab;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
+}
+
+.task-card-custom:active {
+    cursor: grabbing;
+    opacity: 0.8; /* Add visual effect while dragging */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Shadow when dragging */
 }
 
 .task-card-custom.expanded {
     padding-bottom: 60px; /* Space for expanded view */
+    background-color: #d4d0f7; /* Slightly darker color when expanded */
 }
 
 /* Task header */
@@ -139,7 +166,6 @@ button.close-btn:hover {
     color: #888;
 }
 
-/* Hide user name when the card is expanded */
 .task-card-custom.expanded .user-name {
     display: none;
 }
@@ -195,3 +221,27 @@ button.ok-btn {
 button.ok-btn:hover {
     background-color: #218838;
 }
+
+/* Drag and Drop Feedback for Drop Zones */
+.column.drag-over {
+    border: 2px dashed #28a745; /* Highlight the drop zone when a task is dragged over */
+    background-color: rgba(40, 167, 69, 0.1); /* Slight green tint to indicate a valid drop target */
+}
+
+.task-card-custom.dragging {
+    opacity: 0.5;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Give the task a shadow when it's being dragged */
+    transform: scale(1.02); /* Slightly enlarge the card while dragging */
+    background-color: #f0f0f5;
+}
+
+.column.drag-target {
+    background-color: #e8ffe8; /* Light green when a task is dragged over the column */
+}
+
+/* Smooth transition for visual feedback during drag-and-drop */
+.task-card-custom,
+.column {
+    transition: all 0.2s ease;
+}
+
