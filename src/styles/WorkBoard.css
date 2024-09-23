@@ -1,4 +1,4 @@
-/* General styles */
+
 .work-board-page {
     max-width: 1200px;
     margin: 0 auto;
@@ -7,30 +7,30 @@
 
 .board-header {
     display: flex;
-    justify-content: space-between; /* Title at the start, user section at the end */
-    align-items: center; /* Vertically center the items */
+    justify-content: space-between; 
+    align-items: center; 
     margin-bottom: 20px;
     width: 100%;
 }
 
 .board-header h1 {
-    color: #174EA6; /* Blue color for title */
+    color: #174EA6; 
 }
 
 .board-header p {
     font-size: 1.2rem;
-    color: #6d6d6d; /* Gray for description */
+    color: #6d6d6d; 
     margin: 0;
     margin-top: -10px;
     font-weight: 100;
 }
 
-/* Column layout for tasks */
+
 .board-content {
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
-    height: 600px; /* Set a fixed height to make the columns scrollable */
+    height: 600px; 
 }
 
 .column {
@@ -38,9 +38,9 @@
     background-color: #f4f4f9;
     padding: 10px;
     border-radius: 10px;
-    overflow-y: auto; /* Make the column scrollable */
-    max-height: 100%; /* Ensure it takes the full height of the container */
-    border: 2px dashed transparent; /* For drag and drop highlight */
+    overflow-y: auto; 
+    max-height: 100%; 
+    border: 2px dashed transparent; 
     transition: border-color 0.2s ease;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .column:hover {
-    border-color: #aaa; /* Highlight the column when a task is dragged over it */
+    border-color: #aaa; 
 }
 
 .column h3 {
@@ -65,7 +65,7 @@
     color: #333;
 }
 
-/* Task cards */
+
 .task-card-custom {
     background-color: #e1dff7;
     padding: 15px;
@@ -82,16 +82,16 @@
 
 .task-card-custom:active {
     cursor: grabbing;
-    opacity: 0.8; /* Add visual effect while dragging */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Shadow when dragging */
+    opacity: 0.8; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
 }
 
 .task-card-custom.expanded {
-    padding-bottom: 60px; /* Space for expanded view */
-    background-color: #d4d0f7; /* Slightly darker color when expanded */
+    padding-bottom: 60px; 
+    background-color: #d4d0f7; 
 }
 
-/* Task header */
+
 .task-card-header {
     display: flex;
     justify-content: space-between;
@@ -103,7 +103,7 @@
     font-size: 1.1rem;
 }
 
-/* Task body (visible when expanded) */
+
 .task-card-body {
     margin-top: 10px;
     display: flex;
@@ -121,7 +121,7 @@
     background-color: transparent;
 }
 
-/* Close button for expanded card */
+
 button.close-btn {
     position: absolute;
     top: 10px;
@@ -140,14 +140,14 @@ button.close-btn:hover {
     color: #444;
 }
 
-/* Task footer */
+
 .task-card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* User avatar */
+
 .task-card-footer .user-avatar {
     background-color: #5a54d7;
     color: white;
@@ -160,7 +160,7 @@ button.close-btn:hover {
     font-size: 1rem;
 }
 
-/* User name is hidden when expanded */
+
 .user-name {
     font-size: 0.9em;
     color: #888;
@@ -170,7 +170,7 @@ button.close-btn:hover {
     display: none;
 }
 
-/* Add task card button */
+
 .add-task-card1 {
     background-color: #dadada;
     padding: 10px;
@@ -188,13 +188,13 @@ button.close-btn:hover {
     background-color: #ebebeb;
 }
 
-/* Breadcrumbs style */
+
 .myworkboards {
     font-size: 18px;
     font-weight: 300;
 }
 
-/* Button styles */
+
 button {
     background-color: #5a54d7;
     color: white;
@@ -222,24 +222,24 @@ button.ok-btn:hover {
     background-color: #218838;
 }
 
-/* Drag and Drop Feedback for Drop Zones */
+
 .column.drag-over {
-    border: 2px dashed #28a745; /* Highlight the drop zone when a task is dragged over */
-    background-color: rgba(40, 167, 69, 0.1); /* Slight green tint to indicate a valid drop target */
+    border: 2px dashed #28a745; 
+    background-color: rgba(40, 167, 69, 0.1); 
 }
 
 .task-card-custom.dragging {
     opacity: 0.5;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Give the task a shadow when it's being dragged */
-    transform: scale(1.02); /* Slightly enlarge the card while dragging */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+    transform: scale(1.02); 
     background-color: #f0f0f5;
 }
 
 .column.drag-target {
-    background-color: #e8ffe8; /* Light green when a task is dragged over the column */
+    background-color: #e8ffe8; 
 }
 
-/* Smooth transition for visual feedback during drag-and-drop */
+
 .task-card-custom,
 .column {
     transition: all 0.2s ease;

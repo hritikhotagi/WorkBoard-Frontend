@@ -4,9 +4,9 @@
     gap: 20px;
   }
   
-  /* Board card styling */
+  
   .board-card {
-    background-color: #ffeb99; /* Yellow tone */
+    background-color: #ffeb99; 
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -21,7 +21,7 @@
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
-    text-decoration: none; /* No underline */
+    text-decoration: none; 
     color: inherit;
   }
   
@@ -48,7 +48,6 @@
     text-overflow: ellipsis;
   }
   
-  /* Footer containing task count and avatars */
   .board-footer {
     display: flex;
     justify-content: space-between;
@@ -60,11 +59,10 @@
     color: #333;
   }
   
-  /* Assigned users section */
   .assigned-users {
     display: flex;
     position: relative;
-    width: 100px; /* Limit width for stacking effect */
+    width: 100px;
   }
   
   .user-avatar1 {
@@ -79,17 +77,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid #fff; /* White border for overlap effect */
+    border: 2px solid #fff; 
     position: relative;
-    margin-left: -10px; /* Overlap the avatars */
+    margin-left: -10px; 
   }
   
-  /* Hide overflow after showing 6 avatars */
   .assigned-users .user-avatar:nth-child(n+7) {
-    display: none; /* Hide avatars after the 6th */
+    display: none; 
   }
   
-  /* Create Board button styling */
   .create-board-btn {
     background-color: #5a54d7;
     color: #fff;

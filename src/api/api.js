@@ -10,7 +10,6 @@ const removeEmptyFields = (obj) => {
     );
   };
   
-  // Recursively clean objects (including arrays)
   const cleanObject = (obj) => {
     if (Array.isArray(obj)) {
       return obj.map(item => cleanObject(item));
@@ -27,22 +26,18 @@ const removeEmptyFields = (obj) => {
     }
   };
 
-// Store the token in localStorage
 const storeToken = (token) => {
   localStorage.setItem('authToken', token);
 };
 
-// Get the token from localStorage
 const getToken = () => {
   return localStorage.getItem('authToken');
 };
 
-// Remove the token from localStorage (for logging out)
 const removeToken = () => {
   localStorage.removeItem('authToken');
 };
 
-// Helper function to add Authorization header with token
 const authHeader = () => {
   const token = getToken();
   if (token) {
@@ -52,24 +47,20 @@ const authHeader = () => {
   }
 };
 
-// Axios instance with Authorization header
 const axiosInstance = axios.create({
   baseURL: API_URL,
 });
 
-// Interceptor to add the token to each request
 axiosInstance.interceptors.request.use((config) => {
   config.headers = authHeader();
   return config;
 });
 
-// Function to check if the token has expired
 const isTokenExpired = (exp) => {
   const currentTime = Date.now() / 1000;
   return exp < currentTime;
 };
 
-// Login API
 export const login = async (credentials) => {
   const response = await axios.post(`${API_URL}/auth/login/`, credentials);
   const { access } = response.data;
@@ -77,30 +68,27 @@ export const login = async (credentials) => {
   return response.data;
 };
 
-// Register API
 export const register = async (credentials) => {
   const response = await axios.post(`${API_URL}/api/users/`, credentials);
   return response.data;
 };
 
-// Check token validity on app start
 export const checkTokenValidity = () => {
   const token = getToken();
   if (!token) return false;
 
   try {
-    const { exp } = JSON.parse(atob(token.split('.')[1])); // Extract token payload
+    const { exp } = JSON.parse(atob(token.split('.')[1])); 
     if (isTokenExpired(exp)) {
-      removeToken(); // Remove token if expired
+      removeToken();
       return false;
     }
     return true;
   } catch (e) {
-    return false; // If there's an issue parsing the token, consider it invalid
+    return false; 
   }
 };
 
-// Logout user by clearing the token
 export const logout = () => {
   removeToken();
 };
@@ -120,7 +108,7 @@ export const updateUserRole = async (userId, role) => {
   return response.data;
 };
 
-// Board APIs
+
 export const getBoards = async () => {
   const response = await axiosInstance.get('/api/boards/');
   return response.data;
@@ -137,7 +125,7 @@ export const getBoardDetails = async (boardId) => {
   return response.data;
 };
 
-// Task APIs
+
 export const updateTask = async (taskId, updatedTask) => {
   const response = await axiosInstance.patch(`/api/tasks/${taskId}/`, updatedTask);
   return response.data;
@@ -148,7 +136,7 @@ export const createTask = async (task) => {
   return response.data;
 };
 
-export const updateTaskStatus = async (taskId, status) => {
-  const response = await axiosInstance.patch(`/api/tasks/${taskId}/`, { status });
+export const updateTaskStatus = async (taskId, data) => {
+  const response = await axiosInstance.patch(`/api/tasks/${taskId}/`, data);
   return response.data;
 };

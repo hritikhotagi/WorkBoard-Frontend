@@ -22,13 +22,13 @@ const BoardList = ({ boards }) => {
   return (
     <div className="board-list">
       {boards.map((board) => {
-        const uniqueUsers = getUniqueUsers(board.tasks); // Get unique users assigned to tasks
+        const uniqueUsers = getUniqueUsers(board.tasks); 
         return (
           <Link to={`/board/${board.id}`} key={board.id} className="board-card">
             <h3>{board.title}</h3>
             <p>{board.description}</p>
 
-            {/* Task count and user avatars */}
+            
             <div className="board-footer">
               <span className="task-count">{board.tasks.length} Task(s)</span>
               <div className="assigned-users">
@@ -43,7 +43,7 @@ const BoardList = ({ boards }) => {
         );
       })}
 
-      {/* Create Board Button */}
+      
       <Link to="/create-board" className="create-board-btn">
         <span>+</span>
       </Link>

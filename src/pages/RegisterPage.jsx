@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
-import { register } from '../api/api'; // Import your register API function
+import { register } from '../api/api'; 
 import { useNavigate } from 'react-router-dom';
-import '../styles/RegisterPage.css'; // Import the CSS for styling
+import '../styles/RegisterPage.css'; 
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('collaborator'); // Default role
+  const [role, setRole] = useState('collaborator'); 
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await register({ username, email, password, role });
-      navigate('/login'); // Redirect to login page after registration
+      navigate('/login'); 
     } catch (error) {
       setErrorMessage('Registration failed.');
     }
   };
 
   const goToLogin = () => {
-    navigate('/login'); // Navigate to login page
+    navigate('/login'); 
   };
 
   return (
@@ -59,7 +59,7 @@ const RegisterPage = () => {
         <button type="submit">Register</button>
       </form>
 
-      {/* Login Section */}
+      
       <div className="login-section">
         <p>Already have an account? <span onClick={goToLogin} className="login-link">Login</span></p>
       </div>

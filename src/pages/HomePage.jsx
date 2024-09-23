@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import BoardList from '../components/BoardList';
 import { useNavigate } from 'react-router-dom';
-import { getBoards } from '../api/api'; // Import your getBoards API function
+import { getBoards } from '../api/api'; 
 import '../styles/HomePage.css';
 
 const HomePage = () => {
-  const [boards, setBoards] = useState([]); // Now fetching dynamic data
+  const [boards, setBoards] = useState([]); 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null); // New state for user object
+  const [user, setUser] = useState(null); 
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check for the auth token and user data in localStorage
+    
     const token = localStorage.getItem('authToken');
-    const storedUser = localStorage.getItem('user'); // Fetch user object from localStorage
+    const storedUser = localStorage.getItem('user'); 
 
     if (token && storedUser) {
       setIsAuthenticated(true);
-      setUser(JSON.parse(storedUser)); // Parse the stored user data and set it in state
+      setUser(JSON.parse(storedUser)); 
     } else {
       setIsAuthenticated(false);
     }
 
-    // Fetch boards from the API
+    
     const fetchBoards = async () => {
       try {
         const boardsData = await getBoards();
@@ -37,16 +37,16 @@ const HomePage = () => {
   }, []);
 
   const handleLogout = () => {
-    // Clear auth token and user data from localStorage
+    
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
     setIsAuthenticated(false);
-    navigate('/login'); // Redirect to login page
+    navigate('/login'); 
   };
 
-  // Function to get the initial letter from the username
+  
   const getInitial = (name) => {
-    return name.charAt(0).toUpperCase(); // Get the first letter and convert to uppercase
+    return name.charAt(0).toUpperCase(); 
   };
 
   return (
@@ -60,10 +60,10 @@ const HomePage = () => {
           {isAuthenticated && user ? (
             <>
               <div className="profile-icon">
-                {/* Display the initial if no profile picture is provided */}
+                
                 <span className="profile-initials">{getInitial(user.username)}</span>
               </div>
-              <span className="profile-name">{user.username}</span> {/* Display the username */}
+              <span className="profile-name">{user.username}</span> 
               <button className="logout-btn" onClick={handleLogout}>
                 Logout
               </button>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { login } from '../api/api'; // Import your login API function
+import { login } from '../api/api'; 
 import { useNavigate } from 'react-router-dom';
-import '../styles/LoginPage.css'; // Import the CSS for styling
+import '../styles/LoginPage.css'; 
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Basic form validation
+  
   const validateForm = () => {
     if (username === '' || password === '') {
       setErrorMessage('Please fill in all fields.');
@@ -20,23 +20,23 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return; // Perform validation before login
+    if (!validateForm()) return; 
     try {
       const response = await login({ username, password });
       
-      // Store the token and user data in localStorage
-      localStorage.setItem('authToken', response.access); // Assuming `response.access` is the token
-      localStorage.setItem('refreshToken', response.refresh); // Store refresh token
-      localStorage.setItem('user', JSON.stringify(response.user)); // Store user data
+      
+      localStorage.setItem('authToken', response.access); 
+      localStorage.setItem('refreshToken', response.refresh); 
+      localStorage.setItem('user', JSON.stringify(response.user)); 
 
-      navigate('/'); // Redirect to home page after login
+      navigate('/'); 
     } catch (error) {
       setErrorMessage('Login failed. Please check your credentials.');
     }
   };
 
   const goToRegister = () => {
-    navigate('/register'); // Navigate to the register page
+    navigate('/register'); 
   };
 
   return (
@@ -64,7 +64,7 @@ const LoginPage = () => {
         <button type="submit" className="login-btn">Login</button>
       </form>
 
-      {/* Sign Up Section */}
+      
       <div className="signup-section">
         <p>You don't have an account yet? <span onClick={goToRegister} className="signup-link">Sign up</span></p>
       </div>

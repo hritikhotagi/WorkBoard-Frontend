@@ -1,4 +1,4 @@
-/* General Styling */
+
 body {
     font-family: 'Arial', sans-serif;
   }
@@ -11,7 +11,6 @@ body {
     margin: 0 auto;
   }
   
-  /* Left Side - Board Creation Form */
   .create-board-left {
     background-color: #fff;
     padding: 20px;
@@ -20,7 +19,6 @@ body {
     position: relative;
   }
   
-  /* Back Button Styling */
   .back-button {
     background-color: #a19ed3;
     color: #fff;
@@ -50,7 +48,6 @@ body {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-    /* color: #666; */
     margin-top: 5px;
   }
   
@@ -88,7 +85,6 @@ body {
     margin-bottom: 10px;
   }
   
-  /* Buttons Styling */
   .add-task-btn,
   .submit-btn {
     background-color: #5a54d7;
@@ -124,7 +120,6 @@ body {
     float: right;
   }
   
-  /* Right Side - Task List */
   .create-board-right {
     flex-basis: 50%;
     padding: 20px;
@@ -134,8 +129,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    max-height: calc(100vh - 80px); /* Adjust height for scrollable area */
-    overflow-y: auto;
+    max-height: calc(100vh - 80px); 
   }
   
   .task-card {
@@ -178,7 +172,7 @@ body {
     font-size: 0.95rem;
     color: #666;
     margin-bottom: 10px;
-    white-space: pre-wrap; /* Allows line breaks */
+    white-space: pre-wrap; 
     word-wrap: break-word;
   }
   
@@ -210,7 +204,6 @@ body {
     text-transform: uppercase;
   }
   
-  /* Styling for the User Dropdown */
   .user-dropdown {
     margin-top: 10px;
     width: 100%;
@@ -223,7 +216,6 @@ body {
     color: #aaa;
   }
   
-  /* Media Queries for responsiveness */
   @media (max-width: 768px) {
     .create-board-page {
       flex-direction: column;

@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBoardDetails, createTask, getUsers, updateTask, updateTaskStatus } from '../api/api'; // Import updateTaskStatus
-import TaskModal from './TaskModal'; // Import the modal
-import '../styles/WorkBoard.css'; // Custom styles for your workboard
+import { getBoardDetails, createTask, getUsers, updateTask, updateTaskStatus } from '../api/api';
+import TaskModal from './TaskModal';
+import '../styles/WorkBoard.css';
 
 const WorkBoard = () => {
-  const { id } = useParams(); // Get board ID from the URL
+  const { id } = useParams();
   const navigate = useNavigate();
   const [board, setBoard] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
-  const [currentStatus, setCurrentStatus] = useState(''); // Track which column (+) button is clicked
-  const [users, setUsers] = useState([]); // Fetch user list for assignment
-  const [expandedTaskId, setExpandedTaskId] = useState(null); // Track the expanded task
-  const [taskEdits, setTaskEdits] = useState({}); // State to store changes for expanded task
-  const [user, setUser] = useState(null); // Store user object
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState('');
+  const [users, setUsers] = useState([]);
+  const [expandedTaskId, setExpandedTaskId] = useState(null);
+  const [taskEdits, setTaskEdits] = useState({});
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Fetch user data from local storage
     const storedUser = JSON.parse(localStorage.getItem('user'));
     if (storedUser) {
       setUser(storedUser);
@@ -36,7 +35,7 @@ const WorkBoard = () => {
 
     const fetchUsers = async () => {
       try {
-        const usersData = await getUsers(); // Fetch users from API
+        const usersData = await getUsers();
         setUsers(usersData);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -44,14 +43,13 @@ const WorkBoard = () => {
     };
 
     fetchBoard();
-    fetchUsers(); // Fetch users when the component mounts
+    fetchUsers();
   }, [id]);
 
   const handleLogout = () => {
-    // Clear auth token and user data from localStorage
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
-    navigate('/login'); // Redirect to login page
+    navigate('/login');
   };
 
   if (loading) {
@@ -62,67 +60,60 @@ const WorkBoard = () => {
     return <div>Error: Could not load board details</div>;
   }
 
-  // Group tasks by status
   const todoTasks = board.tasks.filter((task) => task.status === 'todo');
   const inProgressTasks = board.tasks.filter((task) => task.status === 'in_progress');
   const completedTasks = board.tasks.filter((task) => task.status === 'completed');
 
-  // Handle drag start event
   const handleDragStart = (e, task) => {
-    e.dataTransfer.setData('taskId', task.id); // Store the task ID in dataTransfer
+    e.dataTransfer.setData('taskId', task.id);
   };
 
-  // Handle drop event on column
   const handleDrop = async (e, newStatus) => {
-    const taskId = e.dataTransfer.getData('taskId'); // Get the task ID
+    const taskId = e.dataTransfer.getData('taskId');
     try {
-      await updateTaskStatus(taskId, newStatus); // Call API to update task status
-
-      // Refetch the board data to reflect the updated status
+        const currentTask = board.tasks.find(task => task.id === Number(taskId));
+        const updatedTask = {
+            status: newStatus,          
+            assigned_to: currentTask.assigned_to ? currentTask.assigned_to.id : null, 
+          };
+      await updateTaskStatus(taskId, updatedTask);
       const updatedBoardData = await getBoardDetails(id);
-      setBoard(updatedBoardData); // Update the board state
+      setBoard(updatedBoardData);
     } catch (error) {
       console.error('Error updating task status:', error);
     }
   };
 
-  // Allow the column to accept dropped tasks
   const allowDrop = (e) => {
-    e.preventDefault(); // Prevent default behavior to allow drop
+    e.preventDefault();
   };
 
-  // Open the modal with the current status
   const handleAddTask = (status) => {
     setCurrentStatus(status);
     setIsModalOpen(true);
   };
 
-  // Handle form submission (task creation)
   const handleTaskSubmit = async (taskData) => {
     try {
-      taskData.work_board = id; // Assign the current board ID
-      await createTask(taskData); // This will now send the full user object
-  
-      // Refetch the board data to update the task list
+      taskData.work_board = id;
+      await createTask(taskData);
       const updatedBoardData = await getBoardDetails(id);
-      setBoard(updatedBoardData); // Update the board state with the new data
+      setBoard(updatedBoardData);
     } catch (error) {
       console.error('Error creating task:', error);
     }
   };
 
-  // Expand task on click
   const handleExpandTask = (task) => {
-    setExpandedTaskId(task.id); // Track the task being expanded
+    setExpandedTaskId(task.id);
     setTaskEdits({
       title: task.title,
       description: task.description,
       status: task.status,
-      assigned_to: task.assigned_to ? task.assigned_to.id : 0, // Default to 0 if no user assigned
+      assigned_to: task.assigned_to ? task.assigned_to.id : 0,
     });
   };
 
-  // Handle change for text inputs or dropdowns without API call
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setTaskEdits((prev) => ({
@@ -134,8 +125,6 @@ const WorkBoard = () => {
   const handleUpdateTask = async () => {
     try {
       const updatedTask = { ...taskEdits };
-  
-      // Handle unassigned case by setting both `assigned_to` and `assigned_to_id` to `null`
       if (taskEdits.assigned_to === '0' || taskEdits.assigned_to === null) {
         updatedTask.assigned_to = null;
         updatedTask.assigned_to_id = null;
@@ -143,36 +132,29 @@ const WorkBoard = () => {
         updatedTask.assigned_to = Number(taskEdits.assigned_to);
         updatedTask.assigned_to_id = Number(taskEdits.assigned_to);
       }
-  
-      await updateTask(expandedTaskId, updatedTask); // Call API to update task
-  
-      // Refetch the board to update the task list
+      await updateTask(expandedTaskId, updatedTask);
       const updatedBoardData = await getBoardDetails(id);
-      setBoard(updatedBoardData); // Update board state
-      setExpandedTaskId(null); // Collapse the task
+      setBoard(updatedBoardData);
+      setExpandedTaskId(null);
     } catch (error) {
       console.error('Error updating task:', error);
     }
   };
-  
-  
 
-  // Cancel editing
   const handleCancelEdit = () => {
     setExpandedTaskId(null);
   };
 
   const handleNavigateHome = () => {
-    navigate('/'); // Redirect to the home page
+    navigate('/');
   };
 
-  // Render task card
   const renderTaskCard = (task) => (
     <div
       key={task.id}
       className={`task-card-custom ${expandedTaskId === task.id ? 'expanded' : ''}`}
-      draggable // Make task card draggable
-      onDragStart={(e) => handleDragStart(e, task)} // Handle dragging
+      draggable
+      onDragStart={(e) => handleDragStart(e, task)}
     >
       <div className="task-card-header" onClick={() => handleExpandTask(task)}>
         <p>{task.title}</p>
@@ -258,7 +240,6 @@ const WorkBoard = () => {
         </div>
       </div>
 
-      {/* Render the modal */}
       <TaskModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

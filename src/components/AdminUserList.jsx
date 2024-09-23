@@ -8,7 +8,7 @@ const AdminUserList = ({ users, fetchUsers }) => {
     setLoading(true);
     await updateUserRole(userId, newRole);
     setLoading(false);
-    fetchUsers(); // Re-fetch users after role change
+    fetchUsers(); 
   };
 
   return (

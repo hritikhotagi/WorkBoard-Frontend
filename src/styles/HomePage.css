@@ -1,4 +1,4 @@
-/* Navbar styling */
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -66,21 +66,18 @@
     color: #000;
   }
   
-  /* Ensure that the home page content is below the navbar */
   .home-page {
     background-color: #fafafa;
     min-height: 100vh;
   }
 
   
-  /* Styling for the board list container */
 .board-list-container {
     width: 92%;
     margin: auto;
     margin-top: 20px;
   }
   
-  /* Adjust create board button styling */
   .create-board-btn {
     background-color: #e0e0e0;
     color: #999;
@@ -108,7 +105,6 @@
     align-items: center;
   }
   
-  /* Authentication buttons (Sign In and Sign Up) */
   .auth-btn {
     background-color: transparent;
     color: #007bff;

@@ -91,7 +91,7 @@ const CreateBoardPage = () => {
             />
           </div>
 
-          {/* Task Input */}
+         
           <div className="form-group task-input">
             <h3>Add Task</h3>
             <input
@@ -107,7 +107,7 @@ const CreateBoardPage = () => {
               onChange={(e) => handleTaskFormChange('description', e.target.value)}
             />
 
-            {/* Status Dropdown */}
+            
             <div className="form-group">
               <label>Status</label>
               <select
@@ -120,14 +120,14 @@ const CreateBoardPage = () => {
               </select>
             </div>
 
-            {/* User Assignment with dropdown */}
+            
             <div className="form-group">
               <label>Assign to a User</label>
               <input
                 type="text"
                 placeholder="Search user"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)} // Search query input
+                onChange={(e) => setSearchQuery(e.target.value)} 
               />
               <select
                 value={taskForm.user}
@@ -152,7 +152,6 @@ const CreateBoardPage = () => {
         </form>
       </div>
 
-      {/* Task List Display on the right */}
       <div className="create-board-right">
         <h3>Tasks</h3>
         <div className="task-list">
@@ -165,7 +164,7 @@ const CreateBoardPage = () => {
               <p>{task.description || 'No description provided'}</p>
               <div className="task-card-footer">
                 <span className="task-status">{task.status}</span>
-                <span className="user-avatar">{task.user.charAt(0)}</span> {/* Avatar based on user initial */}
+                <span className="user-avatar">{task.user.charAt(0)}</span> 
               </div>
             </div>
           ))}

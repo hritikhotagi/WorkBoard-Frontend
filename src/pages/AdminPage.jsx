@@ -17,7 +17,6 @@ const AdminPage = () => {
       }
     };
 
-    // Fetch user role from localStorage
     const storedRole = localStorage.getItem('userRole');
     setRole(storedRole);
 

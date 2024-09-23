@@ -4,43 +4,39 @@ import { Modal, Button } from 'react-bootstrap';
 const TaskModal = ({ isOpen, onClose, onSubmit, status, users }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [assignedTo, setAssignedTo] = useState(''); // Store user ID as a string initially
+  const [assignedTo, setAssignedTo] = useState('');
 
-  // Reset all fields when the modal is opened
   useEffect(() => {
     if (isOpen) {
       setTitle('');
       setDescription('');
-      setAssignedTo(''); // Reset to empty when the modal is opened
+      setAssignedTo('');
     }
   }, [isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    // Initialize taskData with required fields
+
     const taskData = {
       title,
       status,
     };
-  
-    // Set both `assigned_to` and `assigned_to_id` to `null` if "Unassigned" is selected
+
     if (assignedTo && assignedTo !== '0') {
-      taskData.assigned_to = Number(assignedTo);  // For valid user selection, set assigned_to
-      taskData.assigned_to_id = Number(assignedTo); // Set assigned_to_id for the valid user
+      taskData.assigned_to = Number(assignedTo);
+      taskData.assigned_to_id = Number(assignedTo);
     } else {
-      taskData.assigned_to = null;  // Set both to null for "Unassigned"
+      taskData.assigned_to = null;
       taskData.assigned_to_id = null;
     }
-  
+
     if (description.trim()) {
-      taskData.description = description; // Add description if provided
+      taskData.description = description;
     }
-  
-    onSubmit(taskData); // Pass the taskData to the parent component for submission
-    onClose(); // Close the modal after submitting the form
+
+    onSubmit(taskData);
+    onClose();
   };
-  
 
   return (
     <Modal show={isOpen} onHide={onClose}>
@@ -72,7 +68,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, status, users }) => {
             <select
               className="form-control"
               value={assignedTo}
-              onChange={(e) => setAssignedTo(e.target.value)} // Store only the selected user ID
+              onChange={(e) => setAssignedTo(e.target.value)}
             >
               <option value="0">Select User</option>
               {users.map((user) => (
